@@ -28,13 +28,42 @@
     ></iframe>
     <p>分數為：<span id="score">0</span></p>
     <script>
-      // 檢查 monitor_value_ZEFKO class 是否存在
-      const checkClassExistence = setInterval(() => {
-        if (document.querySelector(".sc-monitor-value")) {
-          alert("sc-monitor-value class 存在！");
-          clearInterval(checkClassExistence); // 停止檢查
+      // 等待 iframe 加載完成
+      const iframe = document.getElementById("target-iframe");
+
+      iframe.addEventListener("load", () => {
+        const iframeDocument =
+          iframe.contentDocument || iframe.contentWindow.document;
+
+        if (!iframeDocument) {
+          console.error("無法訪問 iframe 的內容（可能是跨域問題）");
+          return;
         }
-      }, 1000); // 每秒檢查一次
+
+        // 使用 MutationObserver 監聽 iframe 裡的 DOM 變化
+        const observer = new MutationObserver((mutationsList) => {
+          console.log(mutationsList); // 輸出 mutationsList 到控制台
+          for (const mutation of mutationsList) {
+            if (mutation.type === "childList") {
+              const addedNodes = Array.from(mutation.addedNodes);
+              addedNodes.forEach((node) => {
+                if (
+                  node.nodeType === Node.ELEMENT_NODE &&
+                  node.classList.contains("sc-monitor-value")
+                ) {
+                  alert("iframe 中的 monitor_value_ZEFKO 存在了！");
+                }
+              });
+            }
+          }
+        });
+
+        // 啟動監聽，針對 iframe 的 body
+        observer.observe(iframeDocument.body, {
+          childList: true,
+          subtree: true,
+        });
+      });
     </script>
   </body>
 </html>
