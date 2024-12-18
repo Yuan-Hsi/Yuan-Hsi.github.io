@@ -71220,8 +71220,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         await scaffolding.loadProject(projectData);
         setProgress(1);
         loadingScreen.hidden = true;
-        // 在這裡發送消息給父網頁
-        window.parent.postMessage("hi", "*");
         if (false) {
           scaffolding.start();
         } else {
@@ -71234,7 +71232,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         }
       };
       run().catch(handleError);
-      /*
+
       const checkForMonitorValue = () => {
         const element = document.querySelector(".sc-monitor-value");
         if (element) {
@@ -71247,10 +71245,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
           window.parent.postMessage("未找到元素 sc-monitor-value", "*");
         }
       };
-      window.onload = checkForMonitorValue;
-      */
 
-      // 在適當的時候調用這個函數，例如在頁面加載完成後
+      setInterval(checkForMonitorValue, 1000);
     </script>
   </body>
 </html>
