@@ -28,41 +28,12 @@
     ></iframe>
     <p>分數為：<span id="score">0</span></p>
     <script>
-      // 等待 iframe 加載完成
-      const iframe = document.getElementById("target-iframe");
+      // 監聽來自子網頁的消息
+      window.addEventListener("message", (event) => {
+        // 確保消息來自可信的來源
+        // if (event.origin !== 'https://your-trusted-origin.com') return;
 
-      iframe.addEventListener("load", () => {
-        const iframeDocument =
-          iframe.contentDocument || iframe.contentWindow.document;
-
-        if (!iframeDocument) {
-          console.error("無法訪問 iframe 的內容（可能是跨域問題）");
-          return;
-        }
-
-        // 使用 MutationObserver 監聽 iframe 裡的 DOM 變化
-        const observer = new MutationObserver((mutationsList) => {
-          console.log(mutationsList); // 輸出 mutationsList 到控制台
-          for (const mutation of mutationsList) {
-            if (mutation.type === "childList") {
-              const addedNodes = Array.from(mutation.addedNodes);
-              addedNodes.forEach((node) => {
-                if (
-                  node.nodeType === Node.ELEMENT_NODE &&
-                  node.classList.contains("sc-monitor-value")
-                ) {
-                  alert("iframe 中的 monitor_value_ZEFKO 存在了！");
-                }
-              });
-            }
-          }
-        });
-
-        // 啟動監聽，針對 iframe 的 body
-        observer.observe(iframeDocument.body, {
-          childList: true,
-          subtree: true,
-        });
+        console.log("收到消息:", event.data);
       });
     </script>
   </body>
