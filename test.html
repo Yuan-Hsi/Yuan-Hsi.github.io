@@ -71233,20 +71233,22 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       };
       run().catch(handleError);
 
+      let intervalId; // 用於存儲 setInterval 的 ID
+
       const checkForMonitorValue = () => {
         const element = document.querySelector(".sc-monitor-value");
         if (element) {
           console.log("找到元素:", element);
+          const value = element.textContent;
           // 向父網頁發送消息，表示找到了元素
-          window.parent.postMessage("找到元素 sc-monitor-value", "*");
-        } else {
-          console.log("未找到元素 sc-monitor-value");
-          // 向父網頁發送消息，表示未找到元素
-          window.parent.postMessage("未找到元素 sc-monitor-value", "*");
+          window.parent.postMessage(`${value}`, "*");
+          // 停止繼續尋找
+          clearInterval(intervalId);
         }
       };
 
-      setInterval(checkForMonitorValue, 1000);
+      // 每秒檢查一次
+      intervalId = setInterval(checkForMonitorValue, 1000);
     </script>
   </body>
 </html>
