@@ -40250,12 +40250,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               return [
                 ...w(this.runtime, e),
                 ...S(this.runtime, e),
-                ...this.runtime.fontManager
-                  .serializeAssets()
-                  .map((e) => ({
-                    fileName: "".concat(e.assetId, ".").concat(e.dataFormat),
-                    fileContent: e.data,
-                  })),
+                ...this.runtime.fontManager.serializeAssets().map((e) => ({
+                  fileName: "".concat(e.assetId, ".").concat(e.dataFormat),
+                  fileContent: e.data,
+                })),
               ];
             }
             _addFileDescsToZip(e, t) {
@@ -71234,6 +71232,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         }
       };
       run().catch(handleError);
+
       const checkForMonitorValue = () => {
         const element = document.querySelector(".sc-monitor-value");
         if (element) {
